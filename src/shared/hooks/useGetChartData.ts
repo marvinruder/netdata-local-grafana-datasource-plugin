@@ -36,16 +36,16 @@ export const useGetChartData = async ({
 
   switch (groupBy) {
     case 'node':
-      metrics = [{ aggregation: method, groupBy: ['node'], group_by_label: [] }];
+      metrics = [{ aggregation: method, group_by: ['node'], group_by_label: [] }];
       break;
     case 'dimension':
       metrics = [{ group_by: ['dimension'], group_by_label: [], aggregation: method }];
       break;
     case 'instance':
-      metrics = [{ aggregation: method, groupBy: ['instance'], group_by_label: [] }];
+      metrics = [{ aggregation: method, group_by: ['instance'], group_by_label: [] }];
       break;
     default:
-      metrics = [{ aggregation: method, groupBy: ['label'], group_by_label: [groupBy] }];
+      metrics = [{ aggregation: method, group_by: ['label'], group_by_label: [groupBy] }];
       break;
   }
 
