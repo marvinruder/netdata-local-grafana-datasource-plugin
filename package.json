@@ -29,7 +29,6 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^25.1.0",
     "@types/pubsub-js": "^1.8.3",
-    "@types/testing-library__jest-dom": "6.0.0",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
     "copy-webpack-plugin": "^13.0.1",
