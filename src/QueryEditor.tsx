@@ -4,8 +4,6 @@ import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { css } from '@emotion/css';
 import { DataSource } from './datasource';
 import { MyDataSourceOptions, MyQuery } from './shared/types';
-import { useFetchSpaces } from 'shared/hooks/useFetchSpaces';
-import { useFetchRooms } from 'shared/hooks/useFetchRooms';
 import { useFetchContexts } from 'shared/hooks/useFetchContexts';
 import { useFetchNodes } from 'shared/hooks/useFetchNodes';
 import { Aggreagations, GroupByList, Methods } from 'shared/constants';
@@ -26,11 +24,9 @@ const QueryEditor: React.FC<Props> = ({ datasource, query, range, onChange, onRu
   const { baseUrl } = datasource;
   const from = range!.from.valueOf();
   const to = range!.to.valueOf();
-  const after = Math.floor(from / 1000);
-  const before = Math.floor(to / 1000);
+  const after = Math.floor(from);
+  const before = Math.floor(to);
 
-  const [selectedSpace, setSelectedSpace] = React.useState<Dropdown>();
-  const [selectedRoom, setSelectedRoom] = React.useState<Dropdown>();
   const [selectedFilter, setSelectedFilter] = React.useState<Dropdown>();
   const [selectedFilterValue, setSelectedFilterValue] = React.useState<Dropdown>();
   const [totalInstances, setTotalInstances] = React.useState<number>(0);
@@ -48,8 +44,6 @@ const QueryEditor: React.FC<Props> = ({ datasource, query, range, onChange, onRu
   const [selectedAggregations, setSelectedAggregations] = React.useState<Dropdown>(Aggreagations[0]);
   const [filterByValues, setFilterByValues] = React.useState<Dropdown[]>([]);
 
-  const { spaces } = useFetchSpaces(baseUrl);
-  const { rooms, fetchRooms } = useFetchRooms(baseUrl);
   const { nodes, fetchNodes } = useFetchNodes(baseUrl);
   const { contexts, fetchContexts } = useFetchContexts(baseUrl);
   const [allDimensions, setAllDimensions] = useState([]);
@@ -60,7 +54,7 @@ const QueryEditor: React.FC<Props> = ({ datasource, query, range, onChange, onRu
   const filterList = React.useMemo(() => Object.keys(filters).map((s) => ({ label: s, value: s })), [filters]);
   const nodeList = React.useMemo(() => nodes?.map((c: any) => ({ label: c.name, value: c.id })), [nodes]);
 
-  const { spaceId, roomId, nodes: allNodes, dimensions, groupBy, contextId, filterBy, filterValue } = query;
+  const { nodes: allNodes, dimensions, groupBy, contextId, filterBy, filterValue } = query;
 
   const mySubscriber = (msg: any, data: any) => {
     const { summary, view } = data?.data || {};
@@ -96,21 +90,9 @@ const QueryEditor: React.FC<Props> = ({ datasource, query, range, onChange, onRu
   }, []);
 
   React.useEffect(() => {
-    if (spaceId && spaces.length > 0) {
-      const space = spaces.find((s) => s.value === spaceId);
-      setSelectedSpace({ label: space?.label, value: space?.value });
-      fetchRooms(spaceId);
-    }
-  }, [spaceId, spaces, fetchRooms]);
-
-  React.useEffect(() => {
-    if (roomId && rooms.length > 0) {
-      const room = rooms.find((r) => r.value === roomId);
-      setSelectedRoom({ label: room?.label, value: room?.value });
-      fetchNodes(spaceId || '', roomId);
-      fetchContexts(spaceId || '', roomId, after, before);
-    }
-  }, [roomId, rooms, fetchContexts, fetchNodes, spaceId, after, before]);
+    fetchNodes();
+    fetchContexts();
+  }, [fetchContexts, fetchNodes, after, before]);
 
   React.useEffect(() => {
     // eslint-disable-line
@@ -157,44 +139,6 @@ const QueryEditor: React.FC<Props> = ({ datasource, query, range, onChange, onRu
     }
   }, [filterBy, filterValue, filters]);
 
-  const onSpaceIdChange = (v: SelectableValue<string>) => {
-    setSelectedSpace(v);
-
-    // reset the rest of inputs
-    setSelectedRoom({});
-    setSelectedNodes([]);
-    setSelectedContext({});
-    setSelectedDimensions([]);
-    setSelectedGroupBy(GroupByList[0]);
-    setSelectedFilter({});
-    setSelectedFilterValue({});
-    setSelectedMethod(Methods[0]);
-    setSelectedAggregations(Aggreagations[0]);
-
-    fetchRooms(v.value || '');
-    onChange({ ...query, spaceId: v.value });
-    onRunQuery();
-  };
-
-  const onRoomIdChange = (v: SelectableValue<string>) => {
-    setSelectedRoom(v);
-
-    // reset the rest of inputs
-    setSelectedNodes([]);
-    setSelectedContext({});
-    setSelectedDimensions([]);
-    setSelectedGroupBy(GroupByList[0]);
-    setSelectedFilter({});
-    setSelectedFilterValue({});
-    setSelectedMethod(Methods[0]);
-    setSelectedAggregations(Aggreagations[0]);
-
-    fetchContexts(selectedSpace?.value || '', v.value || '', after, before);
-    fetchNodes(selectedSpace?.value || '', v.value || '');
-    onChange({ ...query, spaceId: spaceId, roomId: v.value });
-    onRunQuery();
-  };
-
   const onContextIdChange = (v: SelectableValue<string>) => {
     setSelectedContext(v);
 
@@ -222,7 +166,7 @@ const QueryEditor: React.FC<Props> = ({ datasource, query, range, onChange, onRu
     setSelectedAggregations(Aggreagations[0]);
 
     setSelectedNodes(data);
-    onChange({ ...query, spaceId, roomId, contextId, nodes: data } as MyQuery);
+    onChange({ ...query, contextId, nodes: data } as MyQuery);
     onRunQuery();
   };
 
@@ -272,17 +216,7 @@ const QueryEditor: React.FC<Props> = ({ datasource, query, range, onChange, onRu
   return (
     <>
       <InlineFieldRow className={styles.mt}>
-        <InlineField label="Space*" grow>
-          <Select options={spaces} value={selectedSpace} onChange={onSpaceIdChange} allowCustomValue isSearchable />
-        </InlineField>
-
-        <InlineField label="Room*" grow>
-          <Select options={rooms} value={selectedRoom} onChange={onRoomIdChange} allowCustomValue isSearchable />
-        </InlineField>
-      </InlineFieldRow>
-
-      <InlineFieldRow className={styles.mt}>
-        <InlineField label="Nodes" tooltip="No selected Nodes means 'All Nodes' from the Room" grow>
+        <InlineField label="Nodes" tooltip="No selected Nodes means 'All Nodes'" grow>
           <Select
             options={nodeList}
             value={selectedNodes}

@@ -57,8 +57,8 @@ This script will:
 3. Copy the contents of the Netdata data source plugin to Grafana plugins directory, by default /var/lib/grafana/plugins
 
    ```
-   unzip netdata-datasource-<version_number>.zip
-   docker cp netdata-datasource grafana:/var/lib/grafana/plugins/
+   unzip netdata-local-datasource-<version_number>.zip
+   docker cp netdata-local-datasource grafana:/var/lib/grafana/plugins/
    ```
 
 4. Restart grafana container
@@ -78,8 +78,8 @@ This script will:
 2. Copy the contents of the Netdata data source plugin to Grafana plugins directory, by default /var/lib/grafana/plugins
 
    ```
-   unzip netdata-datasource-<version_number>.zip
-   cp -rf netdata-datasource /var/lib/grafana/plugins
+   unzip netdata-local-datasource-<version_number>.zip
+   cp -rf netdata-local-datasource /var/lib/grafana/plugins
    ```
 
 3. After adding the plugin a restart of grafana server is needed
@@ -98,13 +98,13 @@ This script will:
 
 1. Ensure you have the desired version of the plugin you want to install, get it from github releases by:
    * Going to https://github.com/netdata/netdata-grafana-datasource-plugin/releases/latest
-   * Downloading the zip file with the latest release, e.g. netdata-datasource-1.0.12.zip
+   * Downloading the zip file with the latest release, e.g. netdata-local-datasource-1.0.12.zip
 
 2. Copy the contents of the Netdata data source plugin to the Grafana plugins directory, by default C:\Program Files\GrafanaLabs\grafana\data\plugins
 
    ```
-   Expand-Archive \.netdata-datasource-<version_number>.zip \.
-   xcopy .\netdata-datasource\ "C:\Program Files\GrafanaLabs\grafana\data\plugins\netdata-datasource\" /E
+   Expand-Archive \.netdata-local-datasource-<version_number>.zip \.
+   xcopy .\netdata-local-datasource\ "C:\Program Files\GrafanaLabs\grafana\data\plugins\netdata-local-datasource\" /E
    ```
 
 3. After adding the plugin a restart of grafana server is needed

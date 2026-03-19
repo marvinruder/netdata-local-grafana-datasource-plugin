@@ -1,11 +1,9 @@
 import { GroupByList, Methods } from './../constants';
-import { Post } from 'shared/utils/request';
+import { Get } from 'shared/utils/request';
 
 type UseGetChartDataType = {
   from: number;
   to: number;
-  spaceId?: string;
-  roomId?: string;
   nodes?: string[];
   dimensions?: string[];
   contextId?: string;
@@ -19,9 +17,7 @@ type UseGetChartDataType = {
 
 export const useGetChartData = async ({
   baseUrl,
-  roomId,
   nodes = [],
-  spaceId,
   contextId,
   filterBy,
   filterValue,
@@ -32,50 +28,53 @@ export const useGetChartData = async ({
   from,
   to,
 }: UseGetChartDataType) => {
-  let metrics = [];
+  let group_by: string[], group_by_label: string[];
 
   switch (groupBy) {
     case 'node':
-      metrics = [{ aggregation: method, group_by: ['node'], group_by_label: [] }];
+      group_by = ['node'];
+      group_by_label = [];
       break;
     case 'dimension':
-      metrics = [{ group_by: ['dimension'], group_by_label: [], aggregation: method }];
+      group_by = ['dimension'];
+      group_by_label = [];
       break;
     case 'instance':
-      metrics = [{ aggregation: method, group_by: ['instance'], group_by_label: [] }];
+      group_by = ['instance'];
+      group_by_label = [];
       break;
     default:
-      metrics = [{ aggregation: method, group_by: ['label'], group_by_label: [groupBy] }];
+      group_by = ['label'];
+      group_by_label = [groupBy];
       break;
   }
 
   const defaultSelectorValue = ['*'];
   const labels = filterBy && filterValue ? [`${filterBy}:${filterValue}`] : [];
 
-  return await Post({
-    path: `/v3/spaces/${spaceId}/rooms/${roomId}/data`,
+  return await Get({
+    path: `/v3/data`,
     baseUrl,
-    data: {
+    params: {
       format: 'json2',
       options: ['jsonwrap', 'flip', 'ms'],
-      scope: {
-        contexts: [contextId],
-        nodes,
-        dimensions,
-        labels,
-      },
-      selectors: {
-        contexts: ['*'],
-        nodes: ['*'],
-        instances: ['*'],
-        dimensions: dimensions.length ? dimensions : defaultSelectorValue,
-        labels: labels.length ? labels : defaultSelectorValue,
-      },
-      aggregations: {
-        metrics,
-        time: { time_group: group, time_resampling: 0 },
-      },
-      window: { after: from, before: to, points: 269 },
+      scope_contexts: [contextId],
+      scope_nodes: nodes,
+      scope_dimensions: dimensions,
+      scope_labels: labels,
+      contexts: defaultSelectorValue,
+      nodes: defaultSelectorValue,
+      instances: defaultSelectorValue,
+      dimensions: dimensions.length ? dimensions : defaultSelectorValue,
+      labels: labels.length ? labels : defaultSelectorValue,
+      aggregation: method,
+      group_by,
+      group_by_label,
+      time_group: group,
+      time_resampling: 0,
+      after: from,
+      before: to,
+      points: 269,
     },
   });
 };

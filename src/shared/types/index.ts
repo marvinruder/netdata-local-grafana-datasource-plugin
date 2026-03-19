@@ -1,8 +1,6 @@
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
 
 export interface MyQuery extends DataQuery {
-  spaceId?: string;
-  roomId?: string;
   contextId?: string;
   nodes?: string[];
   groupBy?: string;
@@ -16,10 +14,10 @@ export interface MyQuery extends DataQuery {
 /**
  * These are options configured for each DataSource instance
  */
-export interface MyDataSourceOptions extends DataSourceJsonData {}
+export interface MyDataSourceOptions extends DataSourceJsonData {
+  hostname?: string;
+}
 /**
  * Value that is used in the backend, but never sent over HTTP to the frontend
  */
-export interface MySecureJsonData {
-  apiToken?: string;
-}
+export interface MySecureJsonData {}

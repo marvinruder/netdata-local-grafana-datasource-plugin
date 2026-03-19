@@ -1,14 +1,14 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
-  "name": "netdata",
+  "name": "netdata-local",
   "type": "datasource",
-  "id": "netdatacloud-netdata-datasource",
+  "id": "marvinruder-netdata-local-datasource",
   "metrics": true,
   "info": {
-    "description": "netdata datasource plugin",
+    "description": "Datasource plugin for local Netdata instances",
     "author": {
-      "name": "Netdata",
-      "url": "https://www.netdata.cloud"
+      "name": "Marvin A. Ruder",
+      "url": "https://mruder.dev"
     },
     "keywords": ["netdata", "datasource", "plugin"],
     "logos": {
@@ -18,11 +18,11 @@
     "links": [
       {
         "name": "Website",
-        "url": "https://github.com/netdata/netdata-grafana-datasource-plugin"
+        "url": "https://github.com/marvinruder/netdata-local-grafana-datasource-plugin"
       },
       {
         "name": "License",
-        "url": "https://github.com/netdata/netdata-grafana-datasource-plugin/blob/master/LICENSE"
+        "url": "https://github.com/marvinruder/netdata-local-grafana-datasource-plugin/blob/main/LICENSE"
       }
     ],
     "screenshots": [
@@ -37,15 +37,11 @@
   "routes": [
     {
       "path": "base",
-      "url": "https://app.netdata.cloud/api",
+      "url": "http://{{ .JsonData.hostname }}:19999/api",
       "headers": [
         {
           "name": "Content-Type",
           "content": "application/json"
-        },
-        {
-          "name": "Authorization",
-          "content": "Bearer {{ .SecureJsonData.apiToken }}"
         }
       ]
     }
