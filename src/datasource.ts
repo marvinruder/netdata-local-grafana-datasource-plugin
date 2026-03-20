@@ -26,8 +26,6 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
 
     const promises = options.targets.map(
       ({
-        spaceId,
-        roomId,
         contextId,
         nodes,
         groupBy,
@@ -43,7 +41,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
           return null;
         }
 
-        if (!spaceId || !roomId || !contextId) {
+        if (!contextId) {
           const frame = new MutableDataFrame({
             refId: refId,
             fields: [
@@ -56,8 +54,6 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
 
         return useGetChartData({
           baseUrl: this.baseUrl,
-          spaceId,
-          roomId,
           nodes,
           contextId,
           groupBy,
@@ -105,7 +101,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
     const defaultErrorMessage = 'Cannot connect to API';
 
     try {
-      const response = await Get({ path: '/v2/accounts/me', baseUrl: this.baseUrl });
+      const response = await Get({ path: '/v3/me', baseUrl: this.baseUrl });
 
       if (response.status === 200 && response?.data?.id !== '00000000-0000-0000-0000-000000000000') {
         return {

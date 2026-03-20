@@ -9,23 +9,25 @@ type RequestParamType = {
   method: string;
   path: string;
   baseUrl: string;
+  params?: Record<string, any>;
   data?: { [key: string]: any };
 };
 
-const request = async <T = any>({ method, path, baseUrl, data }: RequestParamType) => {
+const request = async <T = any>({ method, path, baseUrl, params, data }: RequestParamType) => {
   const result = await getBackendSrv().datasourceRequest<T>({
     method,
     url: `${baseUrl}/base${path}`,
+    params,
     data,
   });
 
   return result;
 };
 
-export const Get = async <T = any>({ path, baseUrl }: Pick<RequestParamType, 'path' | 'baseUrl'>) => {
-  return await request<T>({ method: 'GET', path, baseUrl });
+export const Get = async <T = any>({ path, baseUrl, params }: Pick<RequestParamType, 'path' | 'baseUrl' | 'params'>) => {
+  return await request<T>({ method: 'GET', path, baseUrl, params });
 };
 
-export const Post = async <T = any>({ path, baseUrl, data }: Pick<RequestParamType, 'path' | 'baseUrl' | 'data'>) => {
-  return await request<T>({ method: 'POST', path, baseUrl, data });
+export const Post = async <T = any>({ path, baseUrl, params, data }: Pick<RequestParamType, 'path' | 'baseUrl' | 'params' | 'data'>) => {
+  return await request<T>({ method: 'POST', path, baseUrl, params, data });
 };

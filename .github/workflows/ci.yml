@@ -3,15 +3,15 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - 'master'
+      - 'main'
   workflow_dispatch:
     inputs:
       BRANCH:
         required: true
-        default: 'master'
+        default: 'main'
 
 env:
   BRANCH: ${{ github.event.inputs.BRANCH || github.ref }}
@@ -63,29 +63,14 @@ jobs:
 
       - name: Package plugin
         run: |
-          mv dist netdata-datasource
-          zip "netdata-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip" netdata-datasource -r
+          mv dist netdata-local-datasource
+          zip "netdata-local-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip" netdata-local-datasource -r
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: netdata-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
-          path: ./netdata-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
+          name: netdata-local-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
+          path: ./netdata-local-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
 
     outputs:
-      artifact_name: netdata-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
-
-  internal-deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Update Netdata Infra
-        if: github.event_name == 'workflow_dispatch'
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          token: ${{ secrets.NETDATABOT_GITHUB_TOKEN }}
-          repo: ${{ secrets.NETDATA_INFRA_REPO }}
-          workflow: Netdata Grafana Plugin Deploy
-          ref: master
-          inputs: '{"artifact_name": "${{ needs.build.outputs.artifact_name }}", "workflow_run_id": "${{ github.run_id }}"}'
-        continue-on-error: true
+      artifact_name: netdata-local-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip

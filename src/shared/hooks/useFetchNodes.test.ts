@@ -234,7 +234,7 @@ describe('useFetchNodes', () => {
 
     const { result, waitFor } = renderHook(() => hooks.useFetchNodes(baseUrl));
 
-    await result.current.fetchNodes('spaceId', 'roomId');
+    await result.current.fetchNodes();
 
     await waitFor(() => result.current.nodes.length > 0);
 

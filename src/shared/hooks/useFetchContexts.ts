@@ -1,24 +1,13 @@
 import { Dropdown } from './../types/dropdown.interface';
 import React from 'react';
-import { Post } from 'shared/utils/request';
+import { Get } from 'shared/utils/request';
 
-export const getContexts = async (spaceId: string, roomId: string, after: number, before: number, baseUrl: string) => {
-  const response = await Post({
-    path: `/v3/spaces/${spaceId}/rooms/${roomId}/contexts`,
+export const getContexts = async (baseUrl: string) => {
+  const response = await Get({
+    path: `/v3/contexts`,
     baseUrl,
-    data: {
-      scope: {
-        contexts: ['*'],
-        nodes: [],
-      },
-      selectors: {
-        contexts: [],
-        nodes: [],
-      },
-      window: {
-        after,
-        before,
-      },
+    params: {
+      scope_contexts: ['*'],
     },
   });
   const { contexts = {} } = response?.data || {};
@@ -30,11 +19,11 @@ export const useFetchContexts = (baseUrl: string) => {
   const [contexts, setContexts] = React.useState<Dropdown[]>([]);
 
   const fetchContexts = React.useCallback(
-    async (spaceId: string, roomId: string, after: number, before: number) => {
+    async () => {
       setIsError(false);
 
       try {
-        const result = await getContexts(spaceId, roomId, after, before, baseUrl);
+        const result = await getContexts(baseUrl);
         setContexts(result.map((c) => ({ label: c, value: c })));
       } catch (error) {
         setIsError(true);

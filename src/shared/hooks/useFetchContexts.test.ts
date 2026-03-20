@@ -15,7 +15,7 @@ describe('useFetchContexts', () => {
 
     const { result, waitFor } = renderHook(() => hooks.useFetchContexts(baseUrl));
 
-    await result.current.fetchContexts('spaceId', 'roomId', -900, 0);
+    await result.current.fetchContexts();
 
     await waitFor(() => result.current.contexts.length > 0);
 
