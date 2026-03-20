@@ -1,7 +1,7 @@
 {
   "name": "marvinruder-netdata-local-datasource",
   "version": "3.0.4",
-  "description": "Datasource plugin for local Netdata instances",
+  "description": "Datasource plugin for local Netdata Agents",
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
     "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",

@@ -5,7 +5,7 @@
   "id": "marvinruder-netdata-local-datasource",
   "metrics": true,
   "info": {
-    "description": "Datasource plugin for local Netdata instances",
+    "description": "Datasource plugin for local Netdata Agents",
     "author": {
       "name": "Marvin A. Ruder",
       "url": "https://mruder.dev"

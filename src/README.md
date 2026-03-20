@@ -17,9 +17,9 @@ With this data source plugin we expose the troubleshooting capabilities of Netda
 
 ## Getting started
 
-### 1. Connect your Nodes to your Netdata instance
+### 1. Connect your Nodes to your Netdata Agent
 
-The Netdata data source plugin connects directly to the API of your local Netdata instance, meaning that you don’t need to have your nodes (hosts) connected to [Netdata Cloud](https://app.netdata.cloud/) in order to be able to have them exposed on our plugin. For now, no authentication is implemented, so we recommend to use Netdata web server configuration options like `allow connections from` to isolate your Netdata instance from other networks.
+The Netdata data source plugin connects directly to the API of your local Netdata Agent, meaning that you don’t need to have your nodes (hosts) connected to [Netdata Cloud](https://app.netdata.cloud/) in order to be able to have them exposed on our plugin. For now, no authentication is implemented, so we recommend to use Netdata web server configuration options like `allow connections from` to isolate your Netdata Agent from other networks.
 
 > Netdata Agent will need to be installed and running on your server, VM and/or cluster, so that it can start collecting all the relevant metrics you have from the server and applications running on it. More info at https://learn.netdata.cloud/docs/get-started.
 
@@ -27,6 +27,6 @@ The Netdata data source plugin connects directly to the API of your local Netdat
 
 ### 3. Add your hostname to the Netdata data source plugin configuration
 
-Once you have added the hostname of your Netdata instance to Netdata data source plugin you’re ready to start taking advantage of Netdata’s troubleshooting capabilities in Grafana by starting creating your charts and dashboards!
+Once you have added the hostname of your Netdata Agent to Netdata data source plugin you’re ready to start taking advantage of Netdata’s troubleshooting capabilities in Grafana by starting creating your charts and dashboards!
 
 ![image](https://user-images.githubusercontent.com/82235632/189398814-1efbf1c7-1a62-4d5f-abe8-6a9297a3f008.png)

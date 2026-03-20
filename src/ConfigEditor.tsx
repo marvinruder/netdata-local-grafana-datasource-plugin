@@ -19,10 +19,10 @@ export const ConfigEditor: React.FC<Props> = ({ onOptionsChange, options }) => {
   };
 
   return (
-    <InlineField label="Hostname" labelWidth={20} tooltip="The hostname or IP address of your Netdata instance">
+    <InlineField label="Hostname" labelWidth={20} tooltip="The hostname or IP address of your Netdata Agent">
       <Input
         value={jsonData.hostname || ''}
-        placeholder="The hostname of your Netdata instance"
+        placeholder="The hostname of your Netdata Agent"
         width={40}
         onChange={onHostnameChange}
       />
