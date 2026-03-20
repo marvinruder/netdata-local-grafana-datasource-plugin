@@ -1,5 +1,5 @@
 {
-  "name": "marvinruder-netdata-local-datasource",
+  "name": "netdata-local-datasource",
   "version": "3.0.4",
   "description": "Datasource plugin for local Netdata Agents",
   "scripts": {
