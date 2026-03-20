@@ -3,15 +3,15 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - 'master'
+      - 'main'
   workflow_dispatch:
     inputs:
       BRANCH:
         required: true
-        default: 'master'
+        default: 'main'
 
 env:
   BRANCH: ${{ github.event.inputs.BRANCH || github.ref }}
