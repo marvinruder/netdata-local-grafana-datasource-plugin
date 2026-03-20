@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
-  "name": "netdata-local",
+  "name": "netdatalocal",
   "type": "datasource",
-  "id": "netdata-local-datasource",
+  "id": "marvinruder-netdatalocal-datasource",
   "metrics": true,
   "info": {
     "description": "Datasource plugin for local Netdata Agents",

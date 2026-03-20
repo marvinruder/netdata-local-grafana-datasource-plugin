@@ -63,14 +63,14 @@ jobs:
 
       - name: Package plugin
         run: |
-          mv dist netdata-local-datasource
-          zip "netdata-local-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip" netdata-local-datasource -r
+          mv dist netdatalocal-datasource
+          zip "netdatalocal-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip" netdatalocal-datasource -r
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: netdata-local-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
-          path: ./netdata-local-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
+          name: netdatalocal-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
+          path: ./netdatalocal-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
 
     outputs:
-      artifact_name: netdata-local-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
+      artifact_name: netdatalocal-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
