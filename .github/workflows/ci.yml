@@ -63,14 +63,14 @@ jobs:
 
       - name: Package plugin
         run: |
-          mv dist netdatalocal-datasource
-          zip "netdatalocal-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip" netdatalocal-datasource -r
+          mv dist marvinruder-netdatalocal-datasource
+          zip "marvinruder-netdatalocal-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip" marvinruder-netdatalocal-datasource -r
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: netdatalocal-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
-          path: ./netdatalocal-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
+          name: marvinruder-netdatalocal-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
+          path: ./marvinruder-netdatalocal-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
 
     outputs:
-      artifact_name: netdatalocal-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
+      artifact_name: marvinruder-netdatalocal-datasource-${{ steps.build_environment.outputs.BUILD_VERSION }}.zip
