@@ -1,7 +1,7 @@
 services:
   grafana:
     user: root
-    container_name: 'netdatalocal-datasource'
+    container_name: 'marvinruder-netdatalocal-datasource'
 
     build:
       context: .
@@ -13,13 +13,13 @@ services:
     ports:
       - 3000:3000/tcp
     volumes:
-      - ../dist:/var/lib/grafana/plugins/netdatalocal-datasource
+      - ../dist:/var/lib/grafana/plugins/marvinruder-netdatalocal-datasource
       - ../provisioning:/etc/grafana/provisioning
-      - ..:/root/netdatalocal-datasource
+      - ..:/root/marvinruder-netdatalocal-datasource
 
     environment:
       NODE_ENV: development
-      GF_LOG_FILTERS: plugin.netdatalocal-datasource:debug
+      GF_LOG_FILTERS: plugin.marvinruder-netdatalocal-datasource:debug
       GF_LOG_LEVEL: debug
       GF_DATAPROXY_LOGGING: 1
-      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: netdatalocal-datasource
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: marvinruder-netdatalocal-datasource

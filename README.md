@@ -60,8 +60,8 @@ This script will:
 3. Copy the contents of the netdatalocal data source plugin to Grafana plugins directory, by default /var/lib/grafana/plugins
 
    ```
-   unzip netdatalocal-datasource-<version_number>.zip
-   docker cp netdatalocal-datasource grafana:/var/lib/grafana/plugins/
+   unzip marvinruder-netdatalocal-datasource-<version_number>.zip
+   docker cp marvinruder-netdatalocal-datasource grafana:/var/lib/grafana/plugins/
    ```
 
 4. Restart grafana container
@@ -81,8 +81,8 @@ This script will:
 2. Copy the contents of the netdatalocal data source plugin to Grafana plugins directory, by default /var/lib/grafana/plugins
 
    ```
-   unzip netdatalocal-datasource-<version_number>.zip
-   cp -rf netdatalocal-datasource /var/lib/grafana/plugins
+   unzip marvinruder-netdatalocal-datasource-<version_number>.zip
+   cp -rf marvinruder-netdatalocal-datasource /var/lib/grafana/plugins
    ```
 
 3. After adding the plugin a restart of grafana server is needed
@@ -101,13 +101,13 @@ This script will:
 
 1. Ensure you have the desired version of the plugin you want to install, get it from github releases by:
    * Going to https://github.com/marvinruder/netdata-local-grafana-datasource-plugin/releases/latest
-   * Downloading the zip file with the latest release, e.g. netdatalocal-datasource-1.0.12.zip
+   * Downloading the zip file with the latest release, e.g. marvinruder-netdatalocal-datasource-1.0.12.zip
 
 2. Copy the contents of the netdatalocal data source plugin to the Grafana plugins directory, by default C:\Program Files\GrafanaLabs\grafana\data\plugins
 
    ```
-   Expand-Archive \.netdatalocal-datasource-<version_number>.zip \.
-   xcopy .\netdatalocal-datasource\ "C:\Program Files\GrafanaLabs\grafana\data\plugins\netdatalocal-datasource\" /E
+   Expand-Archive \.marvinruder-netdatalocal-datasource-<version_number>.zip \.
+   xcopy .\marvinruder-netdatalocal-datasource\ "C:\Program Files\GrafanaLabs\grafana\data\plugins\marvinruder-netdatalocal-datasource\" /E
    ```
 
 3. After adding the plugin a restart of grafana server is needed
