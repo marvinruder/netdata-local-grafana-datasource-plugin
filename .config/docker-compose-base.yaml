@@ -1,7 +1,7 @@
 services:
   grafana:
     user: root
-    container_name: 'netdata-local-datasource'
+    container_name: 'netdatalocal-datasource'
 
     build:
       context: .
@@ -13,13 +13,13 @@ services:
     ports:
       - 3000:3000/tcp
     volumes:
-      - ../dist:/var/lib/grafana/plugins/netdata-local-datasource
+      - ../dist:/var/lib/grafana/plugins/netdatalocal-datasource
       - ../provisioning:/etc/grafana/provisioning
-      - ..:/root/netdata-local-datasource
+      - ..:/root/netdatalocal-datasource
 
     environment:
       NODE_ENV: development
-      GF_LOG_FILTERS: plugin.netdata-local-datasource:debug
+      GF_LOG_FILTERS: plugin.netdatalocal-datasource:debug
       GF_LOG_LEVEL: debug
       GF_DATAPROXY_LOGGING: 1
-      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: netdata-local-datasource
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: netdatalocal-datasource
