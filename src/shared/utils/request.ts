@@ -14,14 +14,20 @@ type RequestParamType = {
 };
 
 const request = async <T = any>({ method, path, baseUrl, params, data }: RequestParamType) => {
-  const result = await getBackendSrv().datasourceRequest<T>({
+  const flattenedParams = Object.entries(params || {}).reduce((acc, [key, value]) => {
+    if (Array.isArray(value)) {
+      acc[key] = value.join(',');
+    } else {
+      acc[key] = value;
+    }
+    return acc;
+  }, {} as Record<string, any>);
+  return await getBackendSrv().datasourceRequest<T>({
     method,
     url: `${baseUrl}/base${path}`,
-    params,
+    params: flattenedParams,
     data,
   });
-
-  return result;
 };
 
 export const Get = async <T = any>({ path, baseUrl, params }: Pick<RequestParamType, 'path' | 'baseUrl' | 'params'>) => {
