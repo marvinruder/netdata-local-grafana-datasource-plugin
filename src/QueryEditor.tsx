@@ -10,6 +10,7 @@ import { Aggreagations, GroupByList, Methods } from 'shared/constants';
 import { Dropdown } from 'shared/types/dropdown.interface';
 import { getDimensions, getFilters, getGroupingByList, defaultFilter } from 'shared/utils/transformations';
 import PubSub from 'pubsub-js';
+import { getTemplateSrv } from '@grafana/runtime';
 
 type Props = QueryEditorProps<DataSource, MyQuery, MyDataSourceOptions>;
 
@@ -51,8 +52,9 @@ const QueryEditor: React.FC<Props> = ({ datasource, query, range, onChange, onRu
   const [filters, setFilters] = useState<any>(defaultFilter);
   const [groupingByList, setGroupingByList] = useState<Dropdown[]>(GroupByList);
 
+  const variables = getTemplateSrv().getVariables()?.map((v) => ({ name: `Variable: ${v.label || v.name}`, id: `$${v.name}` }));
   const filterList = React.useMemo(() => Object.keys(filters).map((s) => ({ label: s, value: s })), [filters]);
-  const nodeList = React.useMemo(() => nodes?.map((c: any) => ({ label: c.name, value: c.id })), [nodes]);
+  const nodeList = React.useMemo(() => [...nodes, ...variables].map((c: any) => ({ label: c.name, value: c.id })), [nodes]);
 
   const { nodes: allNodes, dimensions, groupBy, contextId, filterBy, filterValue } = query;
 
@@ -99,7 +101,7 @@ const QueryEditor: React.FC<Props> = ({ datasource, query, range, onChange, onRu
     if (allNodes && nodes.length > 0) {
       const filteredNodes: any[] = [];
       allNodes.forEach((element) => {
-        const currentNode: any = nodes.find((n: any) => n.id === element);
+        let currentNode: any = [...nodes, ...variables].find((n: any) => n.id === element);
         filteredNodes.push({ label: currentNode?.name, value: currentNode?.id });
       });
 
@@ -113,7 +115,7 @@ const QueryEditor: React.FC<Props> = ({ datasource, query, range, onChange, onRu
 
       if (allNodes && nodes.length > 0) {
         allNodes.forEach((element) => {
-          const currentNode: any = nodes.find((n: any) => n.id === element);
+          let currentNode: any = [...nodes, ...variables].find((n: any) => n.id === element);
           filteredNodes.push({ label: currentNode?.name, value: currentNode?.id });
         });
       }
