@@ -25,7 +25,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
   }
 
   async query(options: DataQueryRequest<MyQuery>): Promise<DataQueryResponse> {
-    const { range } = options;
+    const { range, maxDataPoints } = options;
     const from = range!.from.valueOf();
     const to = range!.to.valueOf();
 
@@ -80,6 +80,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
           dimensions,
           from: Math.floor(from / 1000), // this value in seconds
           to: Math.floor(to / 1000), // this value in seconds
+          maxDataPoints,
         })
           .then((response: any) => {
             PubSub.publish('CHART_DATA', response);

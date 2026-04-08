@@ -4,6 +4,7 @@ import { Get } from 'shared/utils/request';
 type UseGetChartDataType = {
   from: number;
   to: number;
+  maxDataPoints?: number;
   nodes?: string[];
   dimensions?: string[];
   contextId?: string;
@@ -27,6 +28,7 @@ export const useGetChartData = async ({
   dimensions = [],
   from,
   to,
+  maxDataPoints,
 }: UseGetChartDataType) => {
   let group_by: string[], group_by_label: string[];
 
@@ -74,7 +76,7 @@ export const useGetChartData = async ({
       time_resampling: 0,
       after: from,
       before: to,
-      points: 269,
+      points: maxDataPoints || 269,
     },
   });
 };
