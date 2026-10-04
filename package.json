@@ -1,6 +1,6 @@
 {
   "name": "marvinruder-netdatalocal-datasource",
-  "version": "3.0.4",
+  "version": "3.1.0",
   "description": "Datasource plugin for local Netdata Agents",
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
@@ -52,7 +52,7 @@
     "sass-loader": "16.0.6",
     "style-loader": "4.0.0",
     "swc-loader": "^0.2.7",
-    "terser-webpack-plugin": "^5.3.16",
+    "terser-webpack-plugin": "^5.6.1",
     "ts-node": "^10.9.2",
     "typescript": "5.9.3",
     "webpack": "^5.104.1",
@@ -66,18 +66,18 @@
   },
   "dependencies": {
     "@emotion/css": "11.13.5",
-    "@grafana/data": "12.3.2",
-    "@grafana/runtime": "^12.3.2",
-    "@grafana/schema": "^12.3.2",
-    "@grafana/ui": "12.3.2",
-    "@remix-run/router": "1.23.2",
+    "@grafana/data": "13.2.3",
+    "@grafana/runtime": "^13.2.3",
+    "@grafana/schema": "^13.2.3",
+    "@grafana/ui": "13.2.3",
+    "@remix-run/router": "1.23.3",
     "pubsub-js": "^1.9.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-router-dom-v5-compat": "6.30.3"
   },
   "resolutions": {
-    "@remix-run/router": "1.23.2"
+    "@remix-run/router": "1.23.3"
   },
   "packageManager": "yarn@1.22.21"
 }

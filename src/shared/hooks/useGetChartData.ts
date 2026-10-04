@@ -1,5 +1,6 @@
-import { GroupByList, Methods } from './../constants';
-import { Get } from 'shared/utils/request';
+import { Get } from '../utils/request';
+import { Methods } from './../constants';
+import { buildGrouping } from 'shared/utils/grouping';
 
 type UseGetChartDataType = {
   from: number;
@@ -8,7 +9,7 @@ type UseGetChartDataType = {
   nodes?: string[];
   dimensions?: string[];
   contextId?: string;
-  groupBy?: string;
+  groupBy?: string | string[];
   method?: string;
   group?: string;
   filterBy?: string;
@@ -22,7 +23,7 @@ export const useGetChartData = async ({
   contextId,
   filterBy,
   filterValue,
-  groupBy = GroupByList[0].value,
+  groupBy,
   method = Methods[0].value,
   group = 'average',
   dimensions = [],
@@ -30,26 +31,7 @@ export const useGetChartData = async ({
   to,
   maxDataPoints,
 }: UseGetChartDataType) => {
-  let group_by: string[], group_by_label: string[];
-
-  switch (groupBy) {
-    case 'node':
-      group_by = ['node'];
-      group_by_label = [];
-      break;
-    case 'dimension':
-      group_by = ['dimension'];
-      group_by_label = [];
-      break;
-    case 'instance':
-      group_by = ['instance'];
-      group_by_label = [];
-      break;
-    default:
-      group_by = ['label'];
-      group_by_label = [groupBy];
-      break;
-  }
+  const metrics = [{ aggregation: method, ...buildGrouping(groupBy) }];
 
   const defaultSelectorValue = ['*'];
   const labels = filterBy && filterValue ? [`${filterBy}:${filterValue}`] : [];
@@ -59,7 +41,7 @@ export const useGetChartData = async ({
     baseUrl,
     params: {
       format: 'json2',
-      options: ['jsonwrap', 'flip', 'ms'],
+      options: ['jsonwrap', 'flip', 'ms', 'group-by-labels'],
       scope_contexts: [contextId],
       scope_nodes: nodes,
       scope_dimensions: dimensions,
@@ -70,8 +52,8 @@ export const useGetChartData = async ({
       dimensions: dimensions.length ? dimensions : defaultSelectorValue,
       labels: labels.length ? labels : defaultSelectorValue,
       aggregation: method,
-      group_by,
-      group_by_label,
+      group_by: metrics.map(({ group_by }) => group_by),
+      group_by_label: metrics.map(({ group_by_label }) => group_by_label).join(','),
       time_group: group,
       time_resampling: 0,
       after: from,
